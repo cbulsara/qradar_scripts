@@ -1,11 +1,10 @@
-#!/usr/bin/python27
+#!/usr/bin/python2.7
 
 import requests
 import argparse
 
 url = 'https://10.120.40.130/api/'
 module = 'reference_data/sets'
-api_token = ''
 api_version = '8.0'
 
 def initArgParser():                    
@@ -20,13 +19,18 @@ def readKeyFile(p):
     return f.readline()
 
 def main():
+    
+    api_token = ''
+    args = initArgParser()
+    
     if args.key:
         api_token = args.key
     elif args.keyfile:
         api_token = readKeyFile(args.keyfile)
     else:
         print "Please provide an API key."
-
+        quit()
+        
     r = requests.get(url + module, verify=False, headers={'SEC':api_token, 'Version':api_version})
 
 if __name__ == "__main__":
